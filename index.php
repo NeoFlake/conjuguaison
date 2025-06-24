@@ -38,57 +38,62 @@
                     $verbe = "";
                     $temps = "";
                     $conjuguaison = [];
+
                     if (isset($_SERVER["HTTP_REFERER"])) {
-                        if (strpos($_SERVER["HTTP_REFERER"], "?verbe")) {
+                        if (isset($_GET['verbe'])) {
+
                             $verbe = $_REQUEST["verbe"];
                             $temps = $_REQUEST["temps"];
-                        }
-                    }
 
-                    if ($temps == "noChoice") {
-                        echo "Veuillez choisir un temps s'il vous plait";
-                    } else if ($verbe == "") {
-                        echo "N'oubliez pas de rentrer un verbe s'il vous plait";
-                    } else {
-                        switch ($temps) {
-                            case "present":
-                                $verbe = substr($verbe, 0, -1);
-                                array_push(
-                                    $conjuguaison,
-                                    $verbe,
-                                    $verbe . "s",
-                                    $verbe,
-                                    substr($verbe, 0, -1) . "ons",
-                                    $verbe . "z",
-                                    $verbe . "nt"
-                                );
-                                break;
-                            case "futur":
-                                array_push(
-                                    $conjuguaison,
-                                    $verbe . "ai",
-                                    $verbe . "as",
-                                    $verbe . "a",
-                                    $verbe . "ons",
-                                    $verbe . "ez",
-                                    $verbe . "ont"
-                                );
-                                break;
-                            case "imparfait":
-                                $verbe = substr($verbe, 0, -2);
-                                array_push(
-                                    $conjuguaison,
-                                    $verbe . "ais",
-                                    $verbe . "ais",
-                                    $verbe . "ait",
-                                    $verbe . "ions",
-                                    $verbe . "iez",
-                                    $verbe . "iont"
-                                );
-                                break;
-                        };
-                        foreach($conjuguaison as $element){
-                            echo "<li>" . $element . "</li>";
+                            if ($temps == "noChoice") {
+                                echo "Veuillez choisir un temps s'il vous plait";
+                            } else if ($verbe == "") {
+                                echo "N'oubliez pas de rentrer un verbe s'il vous plait";
+                            } else {
+                                switch ($temps) {
+                                    case "present":
+                                        $verbe = substr($verbe, 0, -1);
+                                        array_push(
+                                            $conjuguaison,
+                                            $verbe,
+                                            $verbe . "s",
+                                            $verbe,
+                                            substr($verbe, -2, 1) == "g" ? $verbe . "ons" : (
+                                                substr($verbe, -2, 1) == "c" ? substr($verbe, 0, -2) . "çons" :
+                                                substr($verbe, 0, -1) . "ons"
+                                            ),
+                                            $verbe . "z",
+                                            $verbe . "nt"
+                                        );
+                                        break;
+                                    case "futur":
+                                        array_push(
+                                            $conjuguaison,
+                                            $verbe . "ai",
+                                            $verbe . "as",
+                                            $verbe . "a",
+                                            $verbe . "ons",
+                                            $verbe . "ez",
+                                            $verbe . "ont"
+                                        );
+                                        break;
+                                    case "imparfait":
+                                        $verbe = substr($verbe, 0, -2);
+                                        array_push(
+                                            $conjuguaison,
+                                            $verbe . "ais",
+                                            $verbe . "ais",
+                                            $verbe . "ait",
+                                            $verbe . "ions",
+                                            $verbe . "iez",
+                                            $verbe . "iont"
+                                        );
+                                        break;
+                                };
+                                foreach ($conjuguaison as $element) {
+                                    echo "<li>" . $element . "</li>";
+                                }
+                            }
                         }
                     }
                     ?>
